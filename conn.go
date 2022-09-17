@@ -25,6 +25,8 @@ import (
 // A Conn represents a secured connection.
 // It implements the net.Conn interface.
 type Conn struct {
+	ClientHello []byte
+
 	// constant
 	conn        net.Conn
 	isClient    bool
@@ -1037,6 +1039,8 @@ func (c *Conn) readHandshake() (any, error) {
 		m = new(helloRequestMsg)
 	case typeClientHello:
 		m = new(clientHelloMsg)
+		fmt.Println("conn.go +1040", data)
+		c.ClientHello = data
 	case typeServerHello:
 		m = new(serverHelloMsg)
 	case typeNewSessionTicket:
