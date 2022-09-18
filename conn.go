@@ -1021,6 +1021,7 @@ func (c *Conn) readHandshake() (any, error) {
 	}
 
 	data := c.hand.Bytes()
+	cp := data 
 	n := int(data[1])<<16 | int(data[2])<<8 | int(data[3])
 	if n > maxHandshake {
 		c.sendAlertLocked(alertInternalError)
@@ -1038,7 +1039,7 @@ func (c *Conn) readHandshake() (any, error) {
 		m = new(helloRequestMsg)
 	case typeClientHello:
 		m = new(clientHelloMsg)
-		c.ClientHello = data
+		c.ClientHello = cp
 	case typeServerHello:
 		m = new(serverHelloMsg)
 	case typeNewSessionTicket:
