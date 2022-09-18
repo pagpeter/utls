@@ -25,7 +25,7 @@ import (
 // A Conn represents a secured connection.
 // It implements the net.Conn interface.
 type Conn struct {
-	ClientHello []byte
+	ClientHello string
 	// constant
 	conn        net.Conn
 	isClient    bool
@@ -1020,8 +1020,9 @@ func (c *Conn) readHandshake() (any, error) {
 		}
 	}
 
-	dataOG := c.hand.Bytes()
-	n := int(dataOG[1])<<16 | int(dataOG[2])<<8 | int(dataOG[3])
+	data := c.hand.Bytes()
+	hex := fmt.Sprintf("%x", data)
+	n := int(data[1])<<16 | int(data[2])<<8 | int(data[3])
 	if n > maxHandshake {
 		c.sendAlertLocked(alertInternalError)
 		return nil, c.in.setErrorLocked(fmt.Errorf("tls: handshake message of length %d bytes exceeds maximum of %d bytes", n, maxHandshake))
@@ -1031,14 +1032,14 @@ func (c *Conn) readHandshake() (any, error) {
 			return nil, err
 		}
 	}
-	data := c.hand.Next(4 + n)
+	data = c.hand.Next(4 + n)
 	var m handshakeMessage
 	switch data[0] {
 	case typeHelloRequest:
 		m = new(helloRequestMsg)
 	case typeClientHello:
 		m = new(clientHelloMsg)
-		c.ClientHello = dataOG
+		c.ClientHello = hex
 	case typeServerHello:
 		m = new(serverHelloMsg)
 	case typeNewSessionTicket:
