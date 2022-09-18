@@ -1031,7 +1031,7 @@ func (c *Conn) readHandshake() (any, error) {
 			return nil, err
 		}
 	}
-	data = c.hand.Next(4 + n)
+	data := c.hand.Next(4 + n)
 	var m handshakeMessage
 	switch data[0] {
 	case typeHelloRequest:
