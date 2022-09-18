@@ -447,10 +447,6 @@ type ClientHelloInfo struct {
 	ctx context.Context
 }
 
-func (c *ClientHelloInfo) Raw() []byte {
-	return RAW_CLIENT_HELLO
-}
-
 // Context returns the context of the handshake that is in progress.
 // This context is a child of the context passed to HandshakeContext,
 // if any, and is canceled when the handshake concludes.
