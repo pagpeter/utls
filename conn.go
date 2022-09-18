@@ -1020,9 +1020,8 @@ func (c *Conn) readHandshake() (any, error) {
 		}
 	}
 
-	data := c.hand.Bytes()
-	cp := data 
-	n := int(data[1])<<16 | int(data[2])<<8 | int(data[3])
+	dataOG := c.hand.Bytes()
+	n := int(dataOG[1])<<16 | int(dataOG[2])<<8 | int(dataOG[3])
 	if n > maxHandshake {
 		c.sendAlertLocked(alertInternalError)
 		return nil, c.in.setErrorLocked(fmt.Errorf("tls: handshake message of length %d bytes exceeds maximum of %d bytes", n, maxHandshake))
@@ -1039,7 +1038,7 @@ func (c *Conn) readHandshake() (any, error) {
 		m = new(helloRequestMsg)
 	case typeClientHello:
 		m = new(clientHelloMsg)
-		c.ClientHello = cp
+		c.ClientHello = dataOG
 	case typeServerHello:
 		m = new(serverHelloMsg)
 	case typeNewSessionTicket:
