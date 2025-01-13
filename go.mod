@@ -1,13 +1,19 @@
 module github.com/pagpeter/utls
 
-go 1.18
+go 1.21
+
+toolchain go1.22.2
 
 require (
-	golang.org/x/crypto v0.0.0-20220622213112-05595931fe9d
-	golang.org/x/net v0.0.0-20220708220712-1185a9018129
+	github.com/andybalholm/brotli v1.1.1
+	github.com/klauspost/compress v1.17.11
+	github.com/refraction-networking/utls v1.6.7
+	golang.org/x/crypto v0.21.0
+	golang.org/x/net v0.23.0
 )
 
 require (
-	golang.org/x/sys v0.0.0-20220520151302-bc2c85ada10a // indirect
-	golang.org/x/text v0.3.7 // indirect
+	github.com/cloudflare/circl v1.3.7 // indirect
+	golang.org/x/sys v0.18.0 // indirect
+	golang.org/x/text v0.14.0 // indirect
 )
